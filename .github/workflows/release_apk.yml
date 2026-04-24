@@ -8,12 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK
-        run: wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+        run: |
+          wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+          ls -la byedpi.apk  # تایید دانلود موفق
 
-      - name: Create Release and Upload Asset
+      - name: Create Release with unique tag
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          gh release create v1.2.0 byedpi.apk \
-            --title "ByeDPI v1.2.0 (Pre-built)" \
-            --notes "این نسخه به‌طور خودکار از مخزن اصلی دریافت و در این ریپازیتوری منتشر شده است."
+          # ایجاد تگ یکتا با استفاده از زمان اجرا
+          TAG="v1.2.0-$(date +%Y%m%d%H%M%S)"
+          echo "Creating release with tag: $TAG"
+          gh release create "$TAG" byedpi.apk \
+            --title "ByeDPI v1.2.0 (Auto Build)" \
+            --notes "این نسخه به‌طور خودکار در تاریخ $(date) از مخزن اصلی دریافت و منتشر شده است."
