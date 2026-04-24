@@ -1,0 +1,42 @@
+name: Deploy APK to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # v4.2.2 (SHA معتبر)
+
+      - name: Download APK from official release
+        run: |
+          wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+
+      - name: Deploy to GitHub Pages
+        run: |
+          # تنظیم هویت گیت
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # ساخت یک پوشه موقت و انتقال فایل
+          mkdir -p public
+          cp byedpi.apk public/
+
+          # ایجاد شاخه gh-pages (در صورت وجود پاک و دوباره ساخته می‌شود)
+          git checkout --orphan gh-pages
+          git rm -rf .   # پاک کردن همه فایل‌های قبلی
+          
+          # کپی فایل نهایی به ریشه
+          cp public/byedpi.apk .
+          
+          # افزودن و کامیت
+          git add byedpi.apk
+          git commit -m "Deploy APK v1.2.0"
+          
+          # Push اجباری به شاخه gh-pages
+          git push -f origin gh-pages
