@@ -1,0 +1,16 @@
+name: Simple APK Artifact Upload
+on: workflow_dispatch
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK
+        run: wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: byedpi-apk
+          path: byedpi.apk
