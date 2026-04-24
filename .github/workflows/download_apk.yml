@@ -1,0 +1,17 @@
+name: Get Release APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from official release
+        run: |
+          wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808   # v4.4.3
+        with:
+          name: byedpi-apk
+          path: byedpi.apk
