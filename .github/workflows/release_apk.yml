@@ -1,0 +1,24 @@
+name: Publish APK to Releases
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from official source
+        run: |
+          wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@c062c08b815c0e2b5050e4b2c0a4e2b9f139d9b5  # v2.0.8
+        with:
+          tag_name: v1.2.0
+          name: "ByeDPI v1.2.0 (Pre-built)"
+          body: "این نسخه به‌طور خودکار از مخزن اصلی دریافت و در این ریپازیتوری منتشر شده است."
+          draft: false
+          prerelease: false
+          files: byedpi.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
