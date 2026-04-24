@@ -1,0 +1,17 @@
+name: Upload APK to Iran-Accessible Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from official source
+        run: |
+          wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+          
+      - name: Upload APK to temp.sh
+        run: |
+          echo "Uploading file..."
+          curl --upload-file ./byedpi.apk https://temp.sh/byedpi.apk
