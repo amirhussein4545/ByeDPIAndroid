@@ -8,12 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK
-        run: |
-          wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
+        run: wget -O byedpi.apk "https://github.com/dovecoteescapee/ByeDPIAndroid/releases/download/v1.2.0/byedpi-1.2.0.apk"
 
       - name: Create Release and Upload Asset
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           gh release create v1.2.0 byedpi.apk \
             --title "ByeDPI v1.2.0 (Pre-built)" \
